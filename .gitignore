@@ -1,0 +1,24 @@
+# .NET / Visual Studio
+bin/
+obj/
+.vs/
+*.user
+*.suo
+.vscode/
+.idea/
+*.pdb
+
+# 发布产物
+dist/
+installer/output/
+
+# 本地测试截图与临时文件
+_*.png
+scripts/*.png
+*.log
+
+# 内部设计文档（不上传）
+docs/
+
+# 运行时数据
+wco_data/

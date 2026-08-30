@@ -1,0 +1,227 @@
+<Window x:Class="YingKe.App.UI.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="映刻 设置"
+        Width="660"
+        Height="560"
+        MinWidth="560"
+        MinHeight="480"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Microsoft YaHei UI"
+        FontSize="13">
+    <Window.Resources>
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#FF3F3F46"/>
+        </Style>
+        <Style x:Key="Hint" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FF8A8A92"/>
+            <Setter Property="FontSize" Value="11.5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <!-- 底部按钮栏 -->
+        <Border DockPanel.Dock="Bottom" Background="#FFFAFAFC" Padding="14,10"
+                       BorderBrush="#FF3F3F48" BorderThickness="0,1,0,0">
+            <Grid>
+                <TextBlock x:Name="SaveStatus" VerticalAlignment="Center" Foreground="#FF6CC06C"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="保存修改" Click="OnSaveClicked" Padding="20,5" FontWeight="SemiBold"
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,10,0"/>
+                    <Button Content="关闭" Click="OnCloseClicked" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TabControl Margin="14,12,14,4">
+            <!-- ===================== 通用 ===================== -->
+            <TabItem Header="通用">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="4,16,8,12">
+                        <CheckBox x:Name="AutoStartCheck" Content="开机自动启动（当前用户）"/>
+                        <CheckBox x:Name="AutoCloseResultCheck" Content="取字/识图/翻译完成后自动关闭结果弹窗" Margin="0,12,0,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="22,8,0,0">
+                            <TextBlock Text="自动关闭延时" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox x:Name="AutoCloseSecondsBox" Width="48" VerticalContentAlignment="Center"/>
+                            <TextBlock Text="秒（1–60）" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource Hint}" Margin="22,6,0,0"
+                                   Text="结果已自动复制到剪贴板；识别失败时弹窗仍保持打开以便查看错误。"/>
+                        <TextBlock Text="默认保存目录" Style="{StaticResource FieldLabel}" Margin="0,18,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="SaveDirBox"/>
+                            <Button x:Name="BrowseButton" Grid.Column="1" Content="浏览…" Margin="8,0,0,0" Click="OnBrowseClicked"/>
+                        </Grid>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,6,0,0"
+                                   Text="截图“保存”对话框的初始目录；留空使用 图片\YingKe。"/>
+                        <Separator Margin="0,18"/>
+                        <TextBlock Style="{StaticResource Hint}"
+                                   Text="配置文件：%APPDATA%\YingKe\config.json&#x0a;API Key：存放在 Windows 凭据管理器（当前用户），不写入配置文件、不上传。"/>
+                        <Button Content="打开配置文件夹" Width="130" HorizontalAlignment="Left"
+                                Margin="0,10,0,0" Click="OnOpenConfigFolderClicked"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== 截图 ===================== -->
+            <TabItem Header="截图">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="4,16,8,12">
+                        <TextBlock Text="截图快捷键" Style="{StaticResource FieldLabel}" Margin="0,0,0,6"/>
+                        <TextBox x:Name="HotkeyBox" IsReadOnly="True" IsReadOnlyCaretVisible="False"
+                                 Cursor="Hand" TextAlignment="Center" FontSize="15" FontWeight="SemiBold"
+                                 PreviewKeyDown="OnHotkeyPreviewKeyDown" GotFocus="OnHotkeyGotFocus" LostFocus="OnHotkeyLostFocus"/>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,8,0,0"
+                                   Text="点击输入框，然后直接按下新的组合键（如 Ctrl+Alt+A）。Esc 恢复原值。&#x0a;保存时自动检测冲突：被微信 / QQ / Snipaste 等占用会提示并保留原键。"/>
+                        <Separator Margin="0,16"/>
+                        <TextBlock Text="选区内快捷键（框选后按单键触发）" Style="{StaticResource FieldLabel}" Margin="0,0,0,6"/>
+                        <WrapPanel>
+                            <StackPanel Margin="0,0,14,0">
+                                <TextBlock Text="取字" FontSize="12" Foreground="#666666" Margin="0,0,0,3"/>
+                                <TextBox x:Name="OcrKeyBox" Width="70" IsReadOnly="True" Cursor="Hand" TextAlignment="Center"
+                                         PreviewKeyDown="OnOverlayKeyPreviewKeyDown" Tag="取字"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,0,14,0">
+                                <TextBlock Text="AI 识图" FontSize="12" Foreground="#666666" Margin="0,0,0,3"/>
+                                <TextBox x:Name="AiVisionKeyBox" Width="70" IsReadOnly="True" Cursor="Hand" TextAlignment="Center"
+                                         PreviewKeyDown="OnOverlayKeyPreviewKeyDown" Tag="识图"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,0,14,0">
+                                <TextBlock Text="翻译" FontSize="12" Foreground="#666666" Margin="0,0,0,3"/>
+                                <TextBox x:Name="TranslateKeyBox" Width="70" IsReadOnly="True" Cursor="Hand" TextAlignment="Center"
+                                         PreviewKeyDown="OnOverlayKeyPreviewKeyDown" Tag="翻译"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,0,14,0">
+                                <TextBlock Text="钉图" FontSize="12" Foreground="#666666" Margin="0,0,0,3"/>
+                                <TextBox x:Name="PinKeyBox" Width="70" IsReadOnly="True" Cursor="Hand" TextAlignment="Center"
+                                         PreviewKeyDown="OnOverlayKeyPreviewKeyDown" Tag="钉图"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,0,14,0">
+                                <TextBlock Text="保存" FontSize="12" Foreground="#666666" Margin="0,0,0,3"/>
+                                <TextBox x:Name="SaveKeyBox" Width="70" IsReadOnly="True" Cursor="Hand" TextAlignment="Center"
+                                         PreviewKeyDown="OnOverlayKeyPreviewKeyDown" Tag="保存"/>
+                            </StackPanel>
+                        </WrapPanel>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,8,0,0"
+                                   Text="点击输入框后按新单键（字母 / 数字 / F 键均可，如 Snipaste 风格的 F1）。Esc 恢复原值。&#x0a;保存时检测重复：两个动作配了同一个键会提示。"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== OCR 与 AI 识图 ===================== -->
+            <TabItem Header="OCR 与 AI">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="4,16,8,12">
+                        <TextBlock Text="取字引擎" Style="{StaticResource FieldLabel}" Margin="0,0,0,6"/>
+                        <ComboBox x:Name="OcrEngineCombo" SelectedIndex="0">
+                            <ComboBoxItem Content="RapidOCR（本地离线，推荐，首次自动下载模型）"/>
+                            <ComboBoxItem Content="微信 OCR（本地，需安装微信，首跑较慢）"/>
+                            <ComboBoxItem Content="本地引擎（Windows 内置，离线兜底）"/>
+                            <ComboBoxItem Content="云端多模态模型（使用下方配置）"/>
+                        </ComboBox>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,6,0,0"
+                                   Text="微信 OCR 参考自 STranslate（质量最佳，需本机安装微信 PC 版）；失败会自动回落 Windows 内置引擎。"/>
+                        <Separator Margin="0,16"/>
+                        <TextBlock Text="AI Provider" Style="{StaticResource FieldLabel}" Margin="0,0,0,6"/>
+                        <ComboBox x:Name="AiProviderCombo" SelectedIndex="0" SelectionChanged="OnProviderChanged">
+                            <ComboBoxItem Content="OpenAI 兼容"/>
+                            <ComboBoxItem Content="Azure OpenAI"/>
+                            <ComboBoxItem Content="Anthropic Claude"/>
+                            <ComboBoxItem Content="Google Gemini"/>
+                        </ComboBox>
+                        <TextBlock Text="接口地址（Base URL）" Style="{StaticResource FieldLabel}" Margin="0,14,0,6"/>
+                        <TextBox x:Name="BaseUrlBox"/>
+                        <TextBlock Text="API Key" Style="{StaticResource FieldLabel}" Margin="0,14,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <PasswordBox x:Name="KeyBox" Padding="6,4"/>
+                            <Button Grid.Column="1" Content="清除已存 Key" Margin="8,0,0,0" Click="OnClearKeyClicked"/>
+                        </Grid>
+                        <TextBlock x:Name="KeyStatus" Style="{StaticResource Hint}" Margin="0,6,0,0"/>
+                        <TextBlock Text="模型名" Style="{StaticResource FieldLabel}" Margin="0,14,0,6"/>
+                        <TextBox x:Name="ModelBox"/>
+                        <Separator Margin="0,16"/>
+                        <TextBlock Text="已保存模板" Style="{StaticResource FieldLabel}" Margin="0,0,0,6"/>
+                        <ComboBox x:Name="CustomTplCombo" SelectedIndex="-1" SelectionChanged="OnCustomTplSelected"/>
+                        <TextBlock Text="任务模板（名称 / 提示词）" Style="{StaticResource FieldLabel}" Margin="0,14,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TplNameBox" Grid.Column="0" Margin="0,0,8,0"/>
+                            <TextBox x:Name="TplPromptBox" Grid.Column="1" Margin="0,0,8,0"/>
+                            <Button Grid.Column="2" Content="保存模板" Click="OnSaveTemplateClicked"/>
+                            <Button Grid.Column="3" Content="删除" Click="OnDeleteTemplateClicked"/>
+                        </Grid>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,6,0,0"
+                                   Text="名称用于 AI 识图菜单显示；同名覆盖。删除按名称匹配。"/>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,14,0,0"
+                                   Text="取字 / AI 识图 / 翻译按 PRD 在 M2–M3 接入；此处先保存配置。密钥保存后输入框即清空，仅显示状态，不回显明文。"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== 翻译 ===================== -->
+            <TabItem Header="翻译">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="4,16,8,12">
+                        <TextBlock Text="翻译引擎" Style="{StaticResource FieldLabel}" Margin="0,0,0,6"/>
+                        <ComboBox x:Name="TranslationEngineCombo" SelectedIndex="0">
+                            <ComboBoxItem Content="AI 模型（质量更好，消耗 API 额度）"/>
+                            <ComboBoxItem Content="内置翻译（腾讯交互翻译，国内直连免费；失败自动切 Google）"/>
+                        </ComboBox>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,6,0,0"
+                                   Text="多服务自动故障转移（参考 STranslate）：腾讯交互翻译（国内直连）→ Google 免费接口；均无需 Key。"/>
+                        <TextBlock Text="目标语言" Style="{StaticResource FieldLabel}" Margin="0,18,0,6"/>
+                        <ComboBox x:Name="TargetLanguageCombo" SelectedIndex="0">
+                            <ComboBoxItem Content="自动（中↔英互译）"/>
+                            <ComboBoxItem Content="简体中文"/>
+                            <ComboBoxItem Content="English"/>
+                            <ComboBoxItem Content="日本語"/>
+                            <ComboBoxItem Content="한국어"/>
+                            <ComboBoxItem Content="Français"/>
+                            <ComboBoxItem Content="Deutsch"/>
+                            <ComboBoxItem Content="Español"/>
+                            <ComboBoxItem Content="Русский"/>
+                        </ComboBox>
+                        <TextBlock Text="输出模式" Style="{StaticResource FieldLabel}" Margin="0,18,0,6"/>
+                        <ComboBox x:Name="TranslationModeCombo" SelectedIndex="0">
+                            <ComboBoxItem Content="纯文字"/>
+                            <ComboBoxItem Content="双语对照（译文 + 原文）"/>
+                            <ComboBoxItem Content="文字替换（M3 提供）" IsEnabled="False"/>
+                        </ComboBox>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,14,0,0"
+                                   Text="两种引擎的流程都是：本地 OCR 提取图中文字 → 翻译成目标语言。"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== Agent ===================== -->
+            <TabItem Header="Agent">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="4,16,8,12">
+                        <TextBlock TextWrapping="Wrap" Foreground="#444444"
+                                   Text="让 AI Agent（Claude Code / Codex 等）通过 ta CLI 与本机 Bridge 使用截图、OCR、翻译能力，作为 Agent 的视觉输入层。按 PRD 规划在 M6 提供，届时在此页管理以下选项："/>
+                        <CheckBox Content="启用本机 Bridge（Named Pipe，仅当前用户）" IsEnabled="False" Margin="0,16,0,0"/>
+                        <CheckBox Content="允许 Agent 执行写操作（钉图等）" IsEnabled="False" Margin="0,10,0,0"/>
+                        <CheckBox Content="记录审计日志（不含识别正文）" IsEnabled="False" Margin="0,10,0,0"/>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,14,0,0"
+                                   Text="安全边界（PRD F-39）：Bridge 仅监听本机命名管道并限制当前用户 ACL；默认拒绝 Agent 的写操作；审计日志只记录时间、动作、引擎与耗时。"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

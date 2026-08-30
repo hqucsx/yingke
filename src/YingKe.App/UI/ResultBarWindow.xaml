@@ -1,0 +1,76 @@
+<Window x:Class="YingKe.App.UI.ResultBarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="映刻 取字结果"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        ResizeMode="CanResize"
+        Width="460"
+        Height="260"
+        MinWidth="300"
+        MinHeight="150"
+        MaxWidth="860"
+        FontFamily="Microsoft YaHei UI">
+    <WindowChrome.WindowChrome>
+        <!-- 无边框窗口的边缘缩放：拖动窗口边缘 6px 即可调整大小 -->
+        <shell:WindowChrome CaptionHeight="0" ResizeBorderThickness="6"
+                            GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+    <Window.Resources>
+        <Style x:Key="BarButton" TargetType="Button">
+            <Setter Property="Background" Value="#2E2E2E"/>
+            <Setter Property="Foreground" Value="#DDDDDD"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#3D3D3D"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#F01B1B1B" CornerRadius="8" Padding="12,9" BorderThickness="1" BorderBrush="#30FFFFFF">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 标题栏：按住可拖动整个结果栏 -->
+            <DockPanel x:Name="HeaderBar" Grid.Row="0" LastChildFill="True" Background="Transparent"
+                       Cursor="SizeAll" MouseLeftButtonDown="OnHeaderDragMove">
+                <Button DockPanel.Dock="Right" Content="✕" Style="{StaticResource BarButton}"
+                        Padding="7,3" Click="OnCloseClicked" ToolTip="关闭（Esc）"/>
+                <Button x:Name="CopyButton" DockPanel.Dock="Right" Content="复制" Style="{StaticResource BarButton}"
+                        Margin="0,0,8,0" Click="OnCopyClicked" ToolTip="复制结果"/>
+                <TextBlock x:Name="MetaText" Text="识别中…" Foreground="#90FFFFFF" FontSize="11.5"
+                           VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+            </DockPanel>
+
+            <TextBox x:Name="TextBody" Grid.Row="1" IsReadOnly="True" TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                     Margin="0,8,0,0" Padding="8,6"
+                     Background="#26FFFFFF" Foreground="#EAEAEA" BorderThickness="0" FontSize="13"
+                     VerticalContentAlignment="Top"
+                     Visibility="Collapsed"/>
+        </Grid>
+    </Border>
+</Window>
