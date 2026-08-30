@@ -13,6 +13,7 @@
   <img src="https://img.shields.io/badge/platform-Windows%2010%2F11-blue" alt="platform" />
   <img src="https://img.shields.io/badge/.NET-8.0WPF-purple" alt=".NET 8" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license" />
+  <a href="https://github.com/hqucsx/yingke/actions/workflows/ci.yml"><img src="https://github.com/hqucsx/yingke/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
 </p>
 
 ---
