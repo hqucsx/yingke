@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using YingKe.App.Capture;
@@ -303,6 +303,10 @@ public partial class App : Application
         g.DrawString("映刻 OCR 预热 Warmup 456", font, brush, 20, 100);
         return bitmap;
     }
+
+    /// <summary>诊断日志开关：设置环境变量 YINGKE_DEBUG=1 时才记录按键/性能等调试噪音，异常日志不受影响。</summary>
+    internal static bool DiagnosticsEnabled =>
+        Environment.GetEnvironmentVariable("YINGKE_DEBUG") == "1";
 
     /// <summary>应用日志（性能遥测 + 异常堆栈），供自动化测试与问题诊断读取。</summary>
     internal static void AppLog(string message)
