@@ -721,7 +721,7 @@ public partial class App : Application
 
         menu.Items.Add(new System.Windows.Controls.Separator());
 
-        var about = new System.Windows.Controls.MenuItem { Header = "映刻 for Windows v0.1.0 (M2)", IsEnabled = false };
+        var about = new System.Windows.Controls.MenuItem { Header = "映刻 for Windows v0.1.1", IsEnabled = false };
         menu.Items.Add(about);
 
         var exit = new System.Windows.Controls.MenuItem { Header = "退出" };

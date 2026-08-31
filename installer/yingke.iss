@@ -1,7 +1,7 @@
 ﻿; 映刻 for Windows 安装器脚本（Inno Setup 6.3+，含简体中文语言包）
 
 #define MyAppName "映刻"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "0.1.1"
 #define MyAppExeName "YingKe.exe"
 
 [Setup]
