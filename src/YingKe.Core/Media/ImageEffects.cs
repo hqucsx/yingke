@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
@@ -11,7 +11,7 @@ namespace YingKe.Core.Media;
 public static class ImageEffects
 {
     /// <summary>马赛克：分块取平均色（最近邻降采样后再放大）。</summary>
-    public static Bitmap Mosaic(Bitmap source, int blockSize = 14)
+    public static Bitmap Mosaic(Bitmap source, int blockSize = 8)
     {
         ArgumentNullException.ThrowIfNull(source);
         int smallW = Math.Max(1, source.Width / blockSize);
