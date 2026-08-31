@@ -454,6 +454,7 @@ public partial class App : Application
             }
 
             var target = YingKe.Core.Translation.TranslationAuto.Resolve(ocrText, _config.Translation.TargetLanguage);
+            AppLog($"翻译方向: {target}，原文 {ocrText.Length} 字");
             var translated = await YingKe.Core.Translation.BuiltInTranslator.TranslateAsync(ocrText, target);
             var finalText = _config.Translation.Mode == TranslationMode.Bilingual
                 ? translated + "\n\n—— 原文 ——\n" + ocrText

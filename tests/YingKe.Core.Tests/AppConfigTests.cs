@@ -1,4 +1,4 @@
-using YingKe.Core.Configuration;
+﻿using YingKe.Core.Configuration;
 using Xunit;
 
 namespace YingKe.Core.Tests;
@@ -17,7 +17,7 @@ public class AppConfigTests : IDisposable
         Assert.Equal(AiProvider.OpenAiCompatible, config.Ai.Provider);
         Assert.Equal(TranslationEngine.BuiltIn, config.Translation.Engine);
         Assert.Equal(TranslationMode.TextOnly, config.Translation.Mode);
-        Assert.Equal("简体中文", config.Translation.TargetLanguage);
+        Assert.Equal(YingKe.Core.Translation.TranslationAuto.AutoLabel, config.Translation.TargetLanguage);
         Assert.True(string.IsNullOrEmpty(config.General.SaveDirectory));
         // 默认快捷键 Ctrl+Shift+Alt+2
         Assert.Equal(0x0002u | 0x0004u | 0x0001u, config.Hotkeys.CaptureModifiers);

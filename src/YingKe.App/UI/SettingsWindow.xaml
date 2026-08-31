@@ -1,4 +1,4 @@
-<Window x:Class="YingKe.App.UI.SettingsWindow"
+﻿<Window x:Class="YingKe.App.UI.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="映刻 设置"
@@ -209,7 +209,7 @@
             </TabItem>
 
             <!-- ===================== Agent ===================== -->
-            <TabItem Header="Agent">
+            <TabItem Header="Agent" Visibility="Collapsed">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="4,16,8,12">
                         <TextBlock TextWrapping="Wrap" Foreground="#444444"

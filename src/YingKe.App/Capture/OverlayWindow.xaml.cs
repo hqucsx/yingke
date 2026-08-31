@@ -161,7 +161,6 @@ public partial class OverlayWindow : Window, System.ComponentModel.INotifyProper
             [ParseKeyName(_config.Hotkeys.PinKey, Key.P)] = PinSelection,
             [ParseKeyName(_config.Hotkeys.SaveKey, Key.S)] = SaveSelectionWithDialog,
             [Key.C] = CopySelectionToClipboard,
-            [Key.S] = SaveSelectionWithDialog,
         };
     }
 

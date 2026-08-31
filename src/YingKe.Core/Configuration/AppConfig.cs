@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -166,6 +166,7 @@ public sealed class TranslationSettings
 {
     /// <summary>默认内置翻译（多服务故障转移，无需 Key）；用户配置 AI 模型后可切换。</summary>
     public TranslationEngine Engine { get; set; } = TranslationEngine.BuiltIn;
-    public string TargetLanguage { get; set; } = "简体中文";
+    /// <summary>默认自动（中↔英互译）：显式选择的语言原样生效。</summary>
+    public string TargetLanguage { get; set; } = YingKe.Core.Translation.TranslationAuto.AutoLabel;
     public TranslationMode Mode { get; set; } = TranslationMode.TextOnly;
 }
