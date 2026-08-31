@@ -213,7 +213,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="4,16,8,12">
                         <TextBlock TextWrapping="Wrap" Foreground="#444444"
-                                   Text="让 AI Agent（Claude Code / Codex 等）通过 ta CLI 与本机 Bridge 使用截图、OCR、翻译能力，作为 Agent 的视觉输入层。按 PRD 规划在 M6 提供，届时在此页管理以下选项："/>
+                                   Text="让 AI Agent（Claude Code / Codex 等）通过 yingke CLI 与本机 Bridge 使用截图、OCR、翻译能力，作为 Agent 的视觉输入层。按 PRD 规划在 M6 提供，届时在此页管理以下选项："/>
                         <CheckBox Content="启用本机 Bridge（Named Pipe，仅当前用户）" IsEnabled="False" Margin="0,16,0,0"/>
                         <CheckBox Content="允许 Agent 执行写操作（钉图等）" IsEnabled="False" Margin="0,10,0,0"/>
                         <CheckBox Content="记录审计日志（不含识别正文）" IsEnabled="False" Margin="0,10,0,0"/>
